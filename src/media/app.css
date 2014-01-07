@@ -28,9 +28,9 @@ input, button, select, textarea {
 input[type=text], textarea, select {
   border: none;
   font-family: MozTT, sans-serif;
-  font-size: 1.3rem;
+  font-size: .8rem;
   font-weight: 300;
-  padding: .7rem .8rem;
+  padding: .3rem .3rem;
 }
 
 div.persona {

@@ -48,3 +48,51 @@ navigator.id.watch({
 });
 
 
+// contacts
+
+function loadContacts() {
+  $("#contacts").empty();
+
+  var i = 0;
+  for (i = 0; i < localStorage.length; i++) {
+    var id = "contact-" + i;
+    var email = localStorage.getItem(id);
+    var contact = "<li id='" + id + "'>" + email + "</li>";
+    $("#contacts").append(contact);
+  }
+}
+
+
+function addContact(email) {
+  var i = 0;
+  for (i = 0; i < localStorage.length; i++) {
+    var id = "contact-" + i;
+    var currentEmail = localStorage.getItem(id);
+    if (currentEmail==email) {
+        return;
+    }
+  }
+  var nextId = localStorage.length;
+  var id = "contact-" + nextId;
+  localStorage.setItem(id, email);
+  loadContacts();
+}
+
+function removeContact(email) {
+  var i = 0;
+  for (i = 0; i < localStorage.length; i++) {
+    var id = "contact-" + i;
+    var currentEmail = localStorage.getItem(id);
+    if (currentEmail==email) {
+        localStorage.removeItem(id);
+        loadContacts();
+        return;
+    }
+  }
+}
+
+function notifyContact(email, message) {
+
+}
+
+
