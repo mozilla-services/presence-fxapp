@@ -54,9 +54,9 @@ function loadContacts() {
   $("#contacts").empty();
 
   var i = 0;
-  for (i = 0; i < localStorage.length; i++) {
+  for (i = 0; i < asyncStorage.length; i++) {
     var id = "contact-" + i;
-    var email = localStorage.getItem(id);
+    var email = asyncStorage.getItem(id);
     var contact = "<li id='" + id + "'>" + email + "</li>";
     $("#contacts").append(contact);
   }
@@ -64,27 +64,28 @@ function loadContacts() {
 
 
 function addContact(email) {
+  console.log("adding contact " + email);
   var i = 0;
-  for (i = 0; i < localStorage.length; i++) {
+  for (i = 0; i < asyncStorage.length; i++) {
     var id = "contact-" + i;
-    var currentEmail = localStorage.getItem(id);
+    var currentEmail = asyncStorage.getItem(id);
     if (currentEmail==email) {
         return;
     }
   }
-  var nextId = localStorage.length;
+  var nextId = asyncStorage.length;
   var id = "contact-" + nextId;
-  localStorage.setItem(id, email);
+  asyncStorage.setItem(id, email);
   loadContacts();
 }
 
 function removeContact(email) {
   var i = 0;
-  for (i = 0; i < localStorage.length; i++) {
+  for (i = 0; i < asyncStorage.length; i++) {
     var id = "contact-" + i;
-    var currentEmail = localStorage.getItem(id);
+    var currentEmail = asyncStorage.getItem(id);
     if (currentEmail==email) {
-        localStorage.removeItem(id);
+        asyncStorage.removeItem(id);
         loadContacts();
         return;
     }
@@ -94,5 +95,15 @@ function removeContact(email) {
 function notifyContact(email, message) {
 
 }
+
+
+var contactLink = document.getElementById('addContact');
+if (contactLink) {
+  contactLink.onclick = function() {
+    alert("adding contact");
+    addContact($('#newContact').val();
+  };
+}
+
 
 

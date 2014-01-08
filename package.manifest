@@ -7,7 +7,9 @@
   "installs_allowed_from": ["*"],
   "permissions": {
     "systemXHR": {},
-    "desktop-notification":{}
+    "desktop-notification":{},
+    "storage": {},
+    "device-storage:sdcard":{ "access": "readwrite" }
   },
   "developer": {
     "name": "Mozilla Services",

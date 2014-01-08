@@ -5,7 +5,6 @@
         <meta name="viewport" content="width=device-width">
         <meta http-equiv="X-UA-Compatible" content="IE=Edge">
         <link rel="stylesheet" href="media/app.css">
-        <script src="https://login.persona.org/include.js"></script>
         <title>Mozilla Presence</title>
     </head>
     <body role="application">
@@ -29,7 +28,7 @@
           <hr/>
           <div>
             <input type="text" name="contact" id="newContact"/>
-           <button onclick="addContact($('#newContact').val())">Add Contact</button>
+            <button onclick="addContact($('#newContact').val())">Add Contact</button>
           </div>
         </article>
 
@@ -40,6 +39,7 @@
         </section>
 
         <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+        <script type="text/javascript" src="js/persona.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
         <script>
           loadContacts();
