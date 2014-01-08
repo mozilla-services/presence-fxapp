@@ -1,3 +1,5 @@
+var isFFOS = (!!"mozApps" in navigator && navigator.userAgent.search("Mobile") != -1);
+
 // persona login
 // XXX will be replaced by a Firefox Account token at some point
 var signinLink = document.getElementById('signin');
@@ -9,6 +11,9 @@ var signoutLink = document.getElementById('signout');
 if (signoutLink) {
   signoutLink.onclick = function() { navigator.id.logout(); };
 }
+
+
+
 
 var currentUser = null;
 
@@ -48,15 +53,22 @@ navigator.id.watch({
 });
 
 
+
 // contacts
+if (isFFOS) {
+  var storage = asyncStorage;
+}
+else {
+  var storage = localStorage;
+}
 
 function loadContacts() {
   $("#contacts").empty();
 
   var i = 0;
-  for (i = 0; i < asyncStorage.length; i++) {
+  for (i = 0; i < storage.length; i++) {
     var id = "contact-" + i;
-    var email = asyncStorage.getItem(id);
+    var email = storage.getItem(id);
     var contact = "<li id='" + id + "'>" + email + "</li>";
     $("#contacts").append(contact);
   }
@@ -66,26 +78,26 @@ function loadContacts() {
 function addContact(email) {
   console.log("adding contact " + email);
   var i = 0;
-  for (i = 0; i < asyncStorage.length; i++) {
+  for (i = 0; i < storage.length; i++) {
     var id = "contact-" + i;
-    var currentEmail = asyncStorage.getItem(id);
+    var currentEmail = storage.getItem(id);
     if (currentEmail==email) {
         return;
     }
   }
-  var nextId = asyncStorage.length;
+  var nextId = storage.length;
   var id = "contact-" + nextId;
-  asyncStorage.setItem(id, email);
+  storage.setItem(id, email);
   loadContacts();
 }
 
 function removeContact(email) {
   var i = 0;
-  for (i = 0; i < asyncStorage.length; i++) {
+  for (i = 0; i < storage.length; i++) {
     var id = "contact-" + i;
-    var currentEmail = asyncStorage.getItem(id);
+    var currentEmail = storage.getItem(id);
     if (currentEmail==email) {
-        asyncStorage.removeItem(id);
+        storage.removeItem(id);
         loadContacts();
         return;
     }
@@ -98,12 +110,11 @@ function notifyContact(email, message) {
 
 
 var contactLink = document.getElementById('addContact');
+
 if (contactLink) {
   contactLink.onclick = function() {
-    alert("adding contact");
-    addContact($('#newContact').val();
+    var email = $('#newContact').val();
+    addContact(email);
   };
 }
-
-
 
