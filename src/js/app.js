@@ -265,8 +265,8 @@ function loadContacts() {
     var gravatar = md5(email);
     var link = 'http://www.gravatar.com/avatar/' + gravatar;
     link = '<img src="' +link + '"/>';
-    var status = '<span id="status-' + email_id + '">unkown</span>';
-    var contact = "<li id='" + id + "'>" + link + email + status + "</li>";
+    var status = '<span id="status-' + email_id + '">?</span>';
+    var contact = "<li id='" + id + "'><div>" + link + email + status + "</div></li>";
     $("#contacts").append(contact);
   }
 }
