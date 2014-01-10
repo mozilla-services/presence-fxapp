@@ -25,12 +25,21 @@ input, button, select, textarea {
   border-radius: 0;
   box-shadow: none;
 }
+
+input[type=submit] {
+  border: none;
+  padding: .15rem .2rem;
+  width:10%;
+  cursor: pointer;
+}
+
 input[type=text], textarea, select {
   border: none;
   font-family: MozTT, sans-serif;
   font-size: .8rem;
   font-weight: 300;
   padding: .3rem .3rem;
+  width:80%;
 }
 
 div.persona {
@@ -50,6 +59,8 @@ article {
 #contacts {
   width: 100%;
   list-style: none;
+  height: 200px; 
+  overflow: auto;
 }
 
 ul:nth-of-type(1) {

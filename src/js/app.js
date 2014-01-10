@@ -286,6 +286,7 @@ function addContact(email) {
   var id = "contact-" + nextId;
   storage.setItem(id, email);
   loadContacts();
+  return false;
 }
 
 function removeContact(email) {
@@ -312,6 +313,7 @@ if (contactLink) {
   contactLink.onclick = function() {
     var email = $('#newContact').val();
     addContact(email);
+    return false;
   };
 }
 
