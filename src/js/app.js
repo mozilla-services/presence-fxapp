@@ -247,6 +247,13 @@ else {
   var storage = localStorage;
 }
 
+
+function emailToId(mail) {
+  var email_id = mail.replace('@', '_');
+  return email_id.replace('.', '_');
+}
+
+
 function loadContacts() {
   $("#contacts").empty();
 
@@ -254,10 +261,12 @@ function loadContacts() {
   for (i = 0; i < storage.length; i++) {
     var id = "contact-" + i;
     var email = storage.getItem(id);
+    var email_id = emailToId(email);
     var gravatar = md5(email);
     var link = 'http://www.gravatar.com/avatar/' + gravatar;
-    link = '<img src="' +link + '"/>'
-    var contact = "<li id='" + id + "'>" + link + email + "</li>";
+    link = '<img src="' +link + '"/>';
+    var status = '<span id="status-' + email_id + '">unkown</span>';
+    var contact = "<li id='" + id + "'>" + link + email + status + "</li>";
     $("#contacts").append(contact);
   }
 }
@@ -306,3 +315,29 @@ if (contactLink) {
   };
 }
 
+
+// websocket for server interaction
+
+// receiving a status update from the server
+var ws = new WebSocket('ws://localhost:8080/tribe');
+
+ws.onmessage = function(evt) {
+  var data = jQuery.parseJSON(evt.data);
+  console.log(data.uid);
+  var email_id = emailToId(data.uid);
+  console.log(email_id);
+  console.log(data.status);
+  $('#status-' + email_id).text(data.status);
+};
+
+
+// sending a notification to another user
+function notify(user) {
+  var current = currentUser;
+
+  ws.send(JSON.stringify({'user': current,
+                          'action': 'notification',
+                          'target': user,
+                          'message': current + ' says hi!'
+  }));
+}
