@@ -14,7 +14,7 @@ if (signoutLink) {
 
 
 
-
+var serverURL = 'http://presence.services.mozilla.com/_tribe/';
 var currentUser = null;
 
 navigator.id.watch({
@@ -22,7 +22,7 @@ navigator.id.watch({
   onlogin: function(assertion) {
     $.ajax({
       type: 'POST',
-      url: 'http://presence.ziade.org/login',
+      url: serverURL + 'login',
       dataType: 'json',
       data: {assertion: assertion},
       success: function(res, status, xhr) {
@@ -42,7 +42,7 @@ navigator.id.watch({
   onlogout: function() {
     $.ajax({
       type: 'POST',
-      url: 'http://presence.ziade.org/logout', 
+      url: serverURL + 'logout', 
       success: function(res, status, xhr) { 
         currentUser = null;
         $('#user').text("anonymous");
@@ -321,7 +321,7 @@ if (contactLink) {
 // websocket for server interaction
 
 // receiving a status update from the server
-var ws = new WebSocket('ws://localhost:8080/tribe');
+var ws = new WebSocket('ws://presence.services.mozilla.com/_tribe/tribe');
 
 ws.onmessage = function(evt) {
   var data = jQuery.parseJSON(evt.data);
