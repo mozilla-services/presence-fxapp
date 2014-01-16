@@ -25,6 +25,7 @@ navigator.id.watch({
     $('#user').text("tarek@ziade.org");
     $('#signin').hide();
     $('#signout').show();
+      console.log("logged in, starting ws");
     startWS();
   },
   onlogout: function() {
@@ -316,14 +317,29 @@ function stopWS() {
 function startWS() {
   stopWS();
 
-  ws = new WebSocket('ws://presence.services.mozilla.com/_tribe/tribe');
+  ws = new WebSocket('ws://54.184.23.239:8080/tribe');
+
+  console.log("creating web socket");
+
+  ws.onopen = function() {
+    console.log('websocket opened');
+  }
 
   ws.onmessage = function(evt) {
+    console.log("message received");
+
     var data = jQuery.parseJSON(evt.data);
     console.log(data.uid);
     var email_id = emailToId(data.uid);
     console.log(email_id);
     console.log(data.status);
+
+    // XXX for debugging purpose
+    var msg = data.uid + " is now " + data.status;
+    var notification = navigator.mozNotification;
+    var n = notification.createNotification("Mozilla Presence", msg);
+    n.show();
+
     $('#status-' + email_id).text(data.status);
   };
 }
