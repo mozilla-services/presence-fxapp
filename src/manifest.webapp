@@ -6,10 +6,7 @@
   "type" : "privileged",
   "installs_allowed_from": ["*"],
   "permissions": {
-    "systemXHR": {},
     "desktop-notification":{},
-    "storage": {},
-    "device-storage:sdcard":{ "access": "readwrite" }
   },
   "icons": {
     "16": "/media/icon-16.png",

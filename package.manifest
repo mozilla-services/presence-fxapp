@@ -3,13 +3,10 @@
   "description": "Contacts presence and notification",
   "package_path" : "http://presence.services.mozilla.com/presence-tribe/tribe.zip",
   "version": "0.1",
-  "type" : "privileged",
+  "type" : "web",
   "installs_allowed_from": ["*"],
   "permissions": {
-    "systemXHR": {},
     "desktop-notification":{},
-    "storage": {},
-    "device-storage:sdcard":{ "access": "readwrite" }
   },
   "developer": {
     "name": "Mozilla Services",
