@@ -3,7 +3,7 @@
   "description": "Contacts presence and notification",
   "version": "0.1",
   "launch_path": "/index.html",
-  "type" : "privileged",
+  "type" : "web",
   "installs_allowed_from": ["*"],
   "permissions": {
     "desktop-notification":{}
