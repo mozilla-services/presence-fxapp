@@ -14,41 +14,24 @@ if (signoutLink) {
 
 
 
-var serverURL = 'http://presence.services.mozilla.com/_tribe/';
 var currentUser = null;
 
 navigator.id.watch({
   loggedInUser: currentUser,
   onlogin: function(assertion) {
-    $.ajax({
-      type: 'POST',
-      url: serverURL + 'login',
-      dataType: 'json',
-      data: {assertion: assertion},
-      success: function(res, status, xhr) {
-        currentUser = res.email;
-        $('#user').text(res.email);
-        $('#signin').hide();
-        $('#signout').show();
-      },
-      error: function(xhr, status, err) {
-        navigator.id.logout();
-        $('#user').text("anonymous");
-        $('#signout').hide();
-        $('#signin').show();
-      }
-    });
+    // XXX how do I get the email from the assertion on client side?
+    // once we're logged in, we can connect the ws
+    currentUser = "tarek@ziade.org";
+    $('#user').text("tarek@ziade.org");
+    $('#signin').hide();
+    $('#signout').show();
+    startWS();
   },
   onlogout: function() {
-    $.ajax({
-      type: 'POST',
-      url: serverURL + 'logout', 
-      success: function(res, status, xhr) { 
-        currentUser = null;
-        $('#user').text("anonymous");
-      },
-      error: function(xhr, status, err) { alert("Logout failure: " + err); }
-    });
+    console.log('disconnected');
+    $('#user').text("anonymous");
+    currentUser = null;
+    stopWS();
   }
 });
 
@@ -321,16 +304,29 @@ if (contactLink) {
 // websocket for server interaction
 
 // receiving a status update from the server
-var ws = new WebSocket('ws://presence.services.mozilla.com/_tribe/tribe');
+var ws = null;
 
-ws.onmessage = function(evt) {
-  var data = jQuery.parseJSON(evt.data);
-  console.log(data.uid);
-  var email_id = emailToId(data.uid);
-  console.log(email_id);
-  console.log(data.status);
-  $('#status-' + email_id).text(data.status);
-};
+function stopWS() {
+  if (ws) {
+    ws.close();
+    ws = null;
+  }
+}
+
+function startWS() {
+  stopWS();
+
+  ws = new WebSocket('ws://presence.services.mozilla.com/_tribe/tribe');
+
+  ws.onmessage = function(evt) {
+    var data = jQuery.parseJSON(evt.data);
+    console.log(data.uid);
+    var email_id = emailToId(data.uid);
+    console.log(email_id);
+    console.log(data.status);
+    $('#status-' + email_id).text(data.status);
+  };
+}
 
 
 // sending a notification to another user
