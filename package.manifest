@@ -6,7 +6,7 @@
   "type" : "web",
   "installs_allowed_from": ["*"],
   "permissions": {
-    "desktop-notification":{},
+    "desktop-notification":{}
   },
   "developer": {
     "name": "Mozilla Services",
