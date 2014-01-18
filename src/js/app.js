@@ -1,3 +1,4 @@
+var appId = 'someid';
 var isFFOS = (!!"mozApps" in navigator && navigator.userAgent.search("Mobile") != -1);
 
 // persona login
@@ -355,3 +356,18 @@ function notify(user) {
                           'message': current + ' says hi!'
   }));
 }
+
+
+function grantPresence() {
+  var href = 'http://presence.services.mozilla.com/_presence/grant/' + appId;
+  window.location.replace(href + '?redirect=' + location.href);
+}
+
+function revokePresence() {
+  var href = 'http://presence.services.mozilla.com/_presence/revoke/' + appId;
+  href += '?redirect=' + location.href + '?revoked=1';
+  window.location.assign(href);
+}
+
+
+
