@@ -75,7 +75,7 @@ article {
 #contacts {
   width: 100%;
   list-style: none;
-  height: 320px; 
+  height: 200px; 
   overflow: auto;
 }
 
