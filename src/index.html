@@ -19,9 +19,15 @@
         <div style="clear: both"></div>
         </header>
         <article class="info">
+        <div class="toggler">
+          <div id="message" style="display:none" class="ui-widget-content ui-corner-all">
+          </div>
+        </div>
+
+
         <p>Hello <span id="user">anonymous</span></p>
         </article>
-        <article class="auth" id="auth">
+        <!--article class="auth" id="auth">
            <a id="authon" href="#" onclick="grantPresence();">
               Let Tribe see your presence.
            </a>
@@ -29,10 +35,12 @@
              style="display:none">
               Revoke presencee permission.
             </a>
-        </article>
+        </article-->
 
         <article class="tribe">
           <div id="dialog-form" title="Send a message" style="display:none">
+            
+            
             <form action="" id="formSendMessage">
               <fieldset>
                 <input type="hidden" name="mail" id="targetMail"/>

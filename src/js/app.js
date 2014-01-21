@@ -348,12 +348,16 @@ function startWS() {
     console.log(email_id);
     console.log(data.status);
 
-    // XXX for debugging purpose
     var msg = data.uid + " is now " + data.status;
-    var notification = navigator.mozNotification;
-    var n = notification.createNotification("Mozilla Presence", msg);
-    n.show();
 
+    function callback() {
+      setTimeout(function() {
+      $( "#message:visible" ).removeAttr( "style" ).fadeOut();
+      }, 1000 );
+    };
+    var options = {};
+    $('#message').text(msg);
+    $('#message').show("drop", options, 500, callback);
     $('#status-' + email_id).text(data.status);
   };
 }
@@ -407,11 +411,11 @@ function revokePresence() {
 $( "#dialog-form" ).dialog({
     autoOpen: false,
     height: 175,
-    width: 350,
+    width: 200,
     modal: true,
     buttons: {
         "Send": function() {
-           var mail = $("#targetMail" ), msg = $("#msg");
+           var mail = $("#targetMail" ).val(), msg = $("#msg").val();
            sendMessage(mail, msg);
            $(this).dialog("close");
         },

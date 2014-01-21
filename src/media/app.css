@@ -14,6 +14,18 @@ body {
   cursor: pointer;
 }
 
+#message {
+  width: 225px;
+  height: 15px;
+  padding: 10px;
+  float: left;
+  font-size: 15px;
+  font-weight: bold;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+}
+
 h1, h2, h3, h4, h5, h6 { font-weight: 300; }
 
 h1 { font-size: 1.5rem; }
