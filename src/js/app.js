@@ -378,8 +378,8 @@ function sendMessage(mail, message) {
   ws.send(JSON.stringify({'user': currentUser,
                           'action': 'notification',
                           'target': mail,
-                          'message': message
-  }));
+                          'message': message,
+                          'source': appId}));
   console.log("Message sent...");
 }
 
