@@ -238,6 +238,12 @@ function emailToId(mail) {
   return email_id.replace('.', '_');
 }
 
+function openSendDialog(mail) {
+  $("#targetMail").val(mail);
+  $("#dialog-form").dialog("open");
+  return false;
+}
+
 
 function loadContacts() {
   $("#contacts").empty();
@@ -251,8 +257,11 @@ function loadContacts() {
     var link = 'http://www.gravatar.com/avatar/' + gravatar;
     link = '<img src="' +link + '"/>';
     var status = '<span id="status-' + email_id + '">?</span>';
-    var contact = "<li id='" + id + "'><div>" + link + email + status + "</div></li>";
+    var contact = "<li id='" + id + "'>";
+    contact += "<div class='clickable' onclick='openSendDialog(\"" + email + "\")'>";
+    contact += link + email + status + "</div></li>";
     $("#contacts").append(contact);
+
   }
 }
 
@@ -315,10 +324,14 @@ function stopWS() {
   }
 }
 
+var presenceServerURL = 'http://54.184.23.239:8282/';
+var socketURL = 'ws://54.184.23.239:8080/tribe';
+
+
 function startWS() {
   stopWS();
 
-  ws = new WebSocket('ws://54.184.23.239:8080/tribe');
+  ws = new WebSocket(socketURL);
 
   console.log("creating web socket");
 
@@ -346,6 +359,26 @@ function startWS() {
 }
 
 
+function sendMessage(mail, message) {
+  if (!ws) {
+    alert("No connection");
+    return;
+  }
+
+  if (!currentUser) {
+    alert("You need to be connected");
+    return;
+  }
+
+  // XXX crypto ...
+  ws.send(JSON.stringify({'user': currentUser,
+                          'action': 'notification',
+                          'target': mail,
+                          'message': message
+  }));
+  console.log("Message sent...");
+}
+
 // sending a notification to another user
 function notify(user) {
   var current = currentUser;
@@ -358,16 +391,35 @@ function notify(user) {
 }
 
 
+
 function grantPresence() {
-  var href = 'http://presence.services.mozilla.com/_presence/grant/' + appId;
+  var href = presenceServerURL + 'grant/' + appId;
   window.location.replace(href + '?redirect=' + location.href);
 }
 
 function revokePresence() {
-  var href = 'http://presence.services.mozilla.com/_presence/revoke/' + appId;
+  var href = presenceServerURL + 'revoke/' + appId;
   href += '?redirect=' + location.href + '?revoked=1';
   window.location.assign(href);
 }
 
+
+$( "#dialog-form" ).dialog({
+    autoOpen: false,
+    height: 175,
+    width: 350,
+    modal: true,
+    buttons: {
+        "Send": function() {
+           var mail = $("#targetMail" ), msg = $("#msg");
+           sendMessage(mail, msg);
+           $(this).dialog("close");
+        },
+        Cancel: function() {
+          $(this).dialog("close");
+        }
+    },
+    close: function() {}
+});
 
 
