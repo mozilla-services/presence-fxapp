@@ -19,7 +19,7 @@ body {
   height: 15px;
   padding: 10px;
   float: left;
-  font-size: 15px;
+  font-size: 12px;
   font-weight: bold;
   position: absolute;
   background-color: rgba(255, 255, 255, 0.8);
@@ -67,15 +67,15 @@ div.persona {
 }
 
 article {
-  padding: 10px;
-  font-size: 150%;
+  padding: 7px;
+  font-size: 125%;
 }
 
 
 #contacts {
   width: 100%;
   list-style: none;
-  height: 200px; 
+  height: 320px; 
   overflow: auto;
 }
 

@@ -259,7 +259,7 @@ function loadContacts() {
     var status = '<span id="status-' + email_id + '">?</span>';
     var contact = "<li id='" + id + "'>";
     contact += "<div class='clickable' onclick='openSendDialog(\"" + email + "\")'>";
-    contact += link + email + status + "</div></li>";
+    contact += status + link + email + "</div></li>";
     $("#contacts").append(contact);
 
   }
