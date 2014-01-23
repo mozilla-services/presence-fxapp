@@ -274,7 +274,6 @@ function deleteContact(email) {
   }
 }
 
-storage.clear();
 
 function addContact(email) {
   console.log("adding contact " + email);
