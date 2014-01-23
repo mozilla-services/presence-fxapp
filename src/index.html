@@ -15,48 +15,65 @@
           <img src="media/sign_in.png" id="signin"></img>
           <img src="media/sign_out.png" id="signout" style="display:none"></img>
         </div>
-        <h1>My Tribe</h1>
-        <div style="clear: both"></div>
-        </header>
-        <article class="info">
+ <p>Hello <span id="user">anonymous</span></p>
+
         <div class="toggler">
           <div id="message" style="display:none" class="ui-widget-content ui-corner-all">
           </div>
         </div>
+ 
+       <div style="clear: both"></div>
+        </header>
 
-        <p>Hello <span id="user">anonymous</span></p>
-          <div id="dialog-form" title="Send a message" style="display:none">
-            <form action="" id="formSendMessage">
-              <fieldset>
-                <input type="hidden" name="mail" id="targetMail"/>
+        <!-- Tabs -->
+        <div id="tabs">
+        <ul>
+          <li><a href="#tabs-1">Presence</a></li>
+          <li><a href="#tabs-2">Tribe</a></li>
+        </ul>
 
-                <input type="text" name="msg" 
-                       id="msg" class="text ui-widget-content ui-corner-all">
-              </fieldset>
-          </div>
+        <div id="tabs-1">
+          <h1>Presence</h1>
+         
+          Presence Tab
+        </div>  <!-- end presence tab -->
 
-          <ul id="contacts">
-          </ul>
-        </article>
 
-        <footer>
-        <div>
-            Add a contact
-            <form action="" id="formAddContact">
-              <input type="text" name="contact" id="newContact"/>
-              <input value="+" id="addContact" type="submit"/>
-            </form>
-          </div>
+        <div id="tabs-2">
+                      <div id="dialog-form" title="Send a message" style="display:none">
+              <form action="" id="formSendMessage">
+                <fieldset>
+                  <input type="hidden" name="mail" id="targetMail"/>
 
-        <p>Mozilla Cloud Services - Experimental Prototype</p>
-      </footer>
+                  <input type="text" name="msg" 
+                        id="msg" class="text ui-widget-content ui-corner-all">
+                </fieldset>
+            </div>
 
+            <ul id="contacts">
+            </ul>
+
+          <div class="addContact">
+              Add a contact
+              <form action="" id="formAddContact">
+                <input type="text" name="contact" id="newContact"/>
+                <input value="+" id="addContact" type="submit"/>
+              </form>
+            </div>
+
+        </div>
+      </div>  <!-- end tribe tab -->
+    </div>  <!-- end tabs -->
+    <footer>
+      <p>Mozilla Cloud Services - Experimental Prototype</p>
+    </footer>
         </section>
         <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
         <script type="text/javascript" src="js/jquery-ui.js"></script>
         <script type="text/javascript" src="js/persona.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
         <script>
+          $("#tabs").tabs();
           loadContacts();
         </script>
     </body>

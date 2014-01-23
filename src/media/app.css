@@ -64,7 +64,6 @@ input[type=submit] {
 }
 
 input[type=text], textarea, select {
-  border: none;
   font-family: MozTT, sans-serif;
   font-size: .8rem;
   font-weight: 300;
@@ -103,7 +102,7 @@ ul:nth-of-type(1) {
    width: 100%;
    vertical-align: middle;
    margin-bottom: 5px;
-   background-color:rgba(255,255,255,0.3);
+   background-color: rgba(0, 0, 0, 0.2);
    clear: both;
    height: 80px;
 }
@@ -114,8 +113,7 @@ ul:nth-of-type(1) {
   padding-right: 5px;
 }
 
-footer {
-  position: fixed; 
+div.addContact {
   width: 100%; 
   height: 70px;
   bottom: 0px;
@@ -123,6 +121,28 @@ footer {
   font-style: italic;
 }
 
+footer {
+  width: 100%; 
+  bottom: 0px;
+  position: absolute;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-style: italic;
+}
+
+#tabs {
+  height: 80%;
+  margin: 4px;
+  padding: 0px;
+}
+
+.ui-tabs .ui-tabs-panel {
+ padding-left: 2px;
+ padding-right: 2px;
+}
+
+.ui-tabs-nav {
+}
 
 #contacts img {
   vertical-align: middle;
@@ -142,7 +162,7 @@ img.delete {
 
 /*View Module*/
 [role=region] {
-  background: radial-gradient(ellipse at center, rgba(231,76,60,1) 0%,rgba(192,57,43,1) 100%);
+  background: radial-gradient(ellipse at center, #f2f2f2 0%, #c2c2c2 100%);
   top: 0; right: 0; bottom: 0; left: 0;
   position: fixed;
   overflow-x: hidden;
@@ -150,6 +170,9 @@ img.delete {
 [role=region] > header {
   margin: .5rem 0 1rem 0;
   text-align: center;
+  font-size: 120%;
+  color: black;
+  font-weight: bold;
 }
 [role=region] > header > h1 {
   margin: 0;
