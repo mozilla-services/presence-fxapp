@@ -246,39 +246,44 @@ function openSendDialog(mail) {
 
 
 function loadContacts() {
+  console.log("loading contacts");
   $("#contacts").empty();
 
-  var i = 0;
-  for (i = 0; i < storage.length; i++) {
-    var id = "contact-" + i;
-    var email = storage.getItem(id);
+  for (var email in storage) {
+    console.log(email);
     var email_id = emailToId(email);
     var gravatar = md5(email);
-    var link = 'http://www.gravatar.com/avatar/' + gravatar;
-    link = '<img src="' +link + '"/>';
-    var status = '<span id="status-' + email_id + '">?</span>';
-    var contact = "<li id='" + id + "'>";
-    contact += "<div class='clickable' onclick='openSendDialog(\"" + email + "\")'>";
-    contact += status + link + email + "</div></li>";
-    $("#contacts").append(contact);
+    var linkUrl = 'http://www.gravatar.com/avatar/' + gravatar;
+    var link = '<img class="contactAvatar" onclick="openSendDialog(\'';
+    link += email + '\')" src="' + linkUrl + '"/>';
 
+    var status = '<span id="status-' + email_id + '">?</span>';
+    var contact = "<li id='" + email_id + "'>";
+    contact += "<img src='media/delete.png' onclick='deleteContact(\""  +email + "\")' class='delete'/>"
+    email = "<div class='contactEmail' onclick='openSendDialog(\"" + email + "\")'>" +email+"</div>";
+    contact += status + link + email + "</li>";
+    $("#contacts").append(contact);
   }
 }
 
+function deleteContact(email) {
+  console.log("deleting contact " + email);
+  if (storage.getItem(email)) {
+    storage.removeItem(email);
+    loadContacts();
+  }
+}
+
+storage.clear();
 
 function addContact(email) {
   console.log("adding contact " + email);
-  var i = 0;
-  for (i = 0; i < storage.length; i++) {
-    var id = "contact-" + i;
-    var currentEmail = storage.getItem(id);
-    if (currentEmail==email) {
-        return;
-    }
+  if (storage.getItem(email)) {
+    // already exists
+    return;
   }
-  var nextId = storage.length;
-  var id = "contact-" + nextId;
-  storage.setItem(id, email);
+  // XXX we will store more info later
+  storage.setItem(email, {});
   loadContacts();
   return false;
 }
