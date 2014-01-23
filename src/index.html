@@ -15,32 +15,37 @@
           <img src="media/sign_in.png" id="signin"></img>
           <img src="media/sign_out.png" id="signout" style="display:none"></img>
         </div>
- <p>Hello <span id="user">anonymous</span></p>
 
-        <div class="toggler">
-          <div id="message" style="display:none" class="ui-widget-content ui-corner-all">
-          </div>
-        </div>
- 
+        
+          <p>Hello <span id="user">anonymous</span></p>
+
        <div style="clear: both"></div>
         </header>
 
         <!-- Tabs -->
         <div id="tabs">
         <ul>
-          <li><a href="#tabs-1">Presence</a></li>
-          <li><a href="#tabs-2">Tribe</a></li>
+          <li id="tabs-1-button"><a href="#tabs-1">Presence</a></li>
+          <li id="tabs-2-button"><a href="#tabs-2">Tribe</a></li>
         </ul>
 
         <div id="tabs-1">
-          <h1>Presence</h1>
-         
-          Presence Tab
+
+          <div>Status: <span id="status">offline</span></div>
+          <div>
+            <button id="online">Go Online</button>
+            <button id="offline">Go Offline</button>
+          </div>
+          <div id="apps" style="display: none">
+            <h3>Authorized apps</h3>
+            <ul id="applist">
+            </ul>
+          </div>
         </div>  <!-- end presence tab -->
 
 
         <div id="tabs-2">
-                      <div id="dialog-form" title="Send a message" style="display:none">
+           <div id="dialog-form" title="Send a message" style="display:none">
               <form action="" id="formSendMessage">
                 <fieldset>
                   <input type="hidden" name="mail" id="targetMail"/>
@@ -65,6 +70,10 @@
       </div>  <!-- end tribe tab -->
     </div>  <!-- end tabs -->
     <footer>
+      <div class="toggler">
+        <div id="message" style="display:none" class="ui-widget-content ui-corner-all">
+        </div>
+      </div>
       <p>Mozilla Cloud Services - Experimental Prototype</p>
     </footer>
         </section>

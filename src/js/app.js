@@ -16,24 +16,56 @@ if (signoutLink) {
 
 
 var currentUser = null;
+var presenceServerURL = 'http://54.184.23.239:8282/'
+var presenceSocketURL = 'ws://54.184.23.239:8282/presence'
+var tribeServerURL = 'http://54.184.23.239:8282/';
+var tribeSocketURL = 'ws://54.184.23.239:8080/tribe';
+
 
 navigator.id.watch({
   loggedInUser: currentUser,
   onlogin: function(assertion) {
-    // XXX how do I get the email from the assertion on client side?
-    // once we're logged in, we can connect the ws
-    currentUser = "tarek@ziade.org";
-    $('#user').text("tarek@ziade.org");
-    $('#signin').hide();
-    $('#signout').show();
-      console.log("logged in, starting ws");
-    startWS();
+
+    // calling the Presence Server
+    $.ajax({
+      type: 'POST',
+      url: presenceServerURL + 'login',
+      dataType: 'json',
+      data: {assertion: assertion},
+      success: function(res, status, xhr) {
+        console.log('Connected to ' + presenceServerURL + ' as ' + res.email)
+        currentUser = res.email;
+        $('#user').text(res.email);
+        $('#signin').hide();
+        $('#signout').show();
+        console.log('starting presence web socket');
+        startPresenceWS();
+        startTribeWS();
+        console.log('loading apps');
+        loadApps();
+      },
+      error: function(xhr, status, err) {
+        console.log('error on persona connection'); 
+        console.log(status);
+        console.log(err);
+        navigator.id.logout();
+        $('#user').text("anonymous, please connect");
+        $('#signout').hide();
+        $('#signin').show();
+        console.log('stopping presence web socket');
+        stopPresenceWS();
+        stopTribeWS();
+        hideApps();
+      }
+    });
+
   },
   onlogout: function() {
     console.log('disconnected');
     $('#user').text("anonymous");
     currentUser = null;
     stopWS();
+    stopTribeWS();
   }
 });
 
@@ -319,31 +351,28 @@ if (contactLink) {
 // websocket for server interaction
 
 // receiving a status update from the server
-var ws = null;
+var tribe_ws = null;
 
-function stopWS() {
-  if (ws) {
-    ws.close();
-    ws = null;
+function stopTribeWS() {
+  if (tribe_ws) {
+    tribe_ws.close();
+    tribe_ws = null;
   }
 }
 
-var presenceServerURL = 'http://54.184.23.239:8282/';
-var socketURL = 'ws://54.184.23.239:8080/tribe';
 
+function startTribeWS() {
+  stopTribeWS();
 
-function startWS() {
-  stopWS();
-
-  ws = new WebSocket(socketURL);
+  tribe_ws = new WebSocket(tribeSocketURL);
 
   console.log("creating web socket");
 
-  ws.onopen = function() {
+  tribe_ws.onopen = function() {
     console.log('websocket opened');
   }
 
-  ws.onmessage = function(evt) {
+  tribe_ws.onmessage = function(evt) {
     console.log("message received");
 
     var data = jQuery.parseJSON(evt.data);
@@ -368,7 +397,7 @@ function startWS() {
 
 
 function sendMessage(mail, message) {
-  if (!ws) {
+  if (!tribe_ws) {
     alert("No connection");
     return;
   }
@@ -379,7 +408,7 @@ function sendMessage(mail, message) {
   }
 
   // XXX crypto ...
-  ws.send(JSON.stringify({'user': currentUser,
+  tribe_ws.send(JSON.stringify({'user': currentUser,
                           'action': 'notification',
                           'target': mail,
                           'message': message,
@@ -391,7 +420,7 @@ function sendMessage(mail, message) {
 function notify(user) {
   var current = currentUser;
 
-  ws.send(JSON.stringify({'user': current,
+  tribe_ws.send(JSON.stringify({'user': current,
                           'action': 'notification',
                           'target': user,
                           'message': current + ' says hi!'
@@ -429,5 +458,76 @@ $( "#dialog-form" ).dialog({
     },
     close: function() {}
 });
+
+
+// presence web socket
+var presence_ws = null;
+
+
+function startPresenceWS() {
+  stopPresenceWS();
+  console.log('Creating web socket on ' + presenceSocketURL);
+  presence_ws = new WebSocket(presenceSocketURL);
+
+  presence_ws.onopen = function() {
+    console.log('setting ourselves online');
+    presence_ws.send(JSON.stringify({'status': 'online', 'user': currentUser}));
+    console.log('sent');
+
+  }
+
+  presence_ws.onmessage = function(evt) {
+    var data = jQuery.parseJSON(evt.data);
+
+    if (data.status=='notification') {
+      $.each(data.notifications, function(key, notification){
+         notified(notification.message);
+      });
+      return;
+    }
+    $('#status').text(data.status);
+  };
+
+  $('#online').click(function(){
+    var msg = JSON.stringify({'status': 'online', 'user': currentUser});
+    console.log('sending ' + msg);
+    presence_ws.send(msg);
+    console.log('sent');
+
+  });
+
+  $('#offline').click(function(){
+    var msg = JSON.stringify({'status': 'offline', 'user': currentUser});
+    console.log('sending ' + msg);
+    presence_ws.send(msg);
+    console.log('sent');
+  });
+
+  console.log('showing status bar');
+  $('#statusbar').show();
+
+}
+
+function stopPresenceWS() {
+  if (presence_ws) {
+    presence_ws.close();
+    presence_ws = null;
+  }
+  $('#statusbar').hide();
+}
+
+function notified(msg) {
+    console.log(msg);
+
+    function callback() {
+      setTimeout(function() {
+      $( "#message:visible" ).removeAttr( "style" ).fadeOut();
+      }, 1000 );
+    };
+    var options = {};
+    $('#message').text(msg);
+    $('#message').show("drop", options, 500, callback);
+}
+
 
 
