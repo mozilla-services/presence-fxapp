@@ -14,7 +14,7 @@ if (signoutLink) {
 }
 
 
-
+// XXX move to wss:// and https://
 var currentUser = null;
 var presenceServerURL = 'http://54.184.23.239:8282/'
 var presenceSocketURL = 'ws://54.184.23.239:8282/presence'
