@@ -1,7 +1,7 @@
 {
-  "name": "Tribe App",
-  "description": "Contacts presence and notification",
-  "package_path" : "https://presence.services.mozilla.com/presence-tribe/tribe.zip",
+  "name": "Mozilla Presence Demo",
+  "description": "Mozilla Presence Demo",
+  "package_path" : "https://presence.services.mozilla.com/presence-fxapp/presence.zip",
   "version": "0.1",
   "type" : "web",
   "installs_allowed_from": ["*"],
@@ -10,7 +10,7 @@
   },
   "developer": {
     "name": "Mozilla Services",
-    "url": "https://github.com/mozilla-services/presence-tribe"
+    "url": "https://github.com/mozilla-services/presence-fxapp"
   },
   "launch_path": "/index.html",
   "icons": {

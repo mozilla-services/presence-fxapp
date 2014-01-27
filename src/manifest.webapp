@@ -1,6 +1,6 @@
 {
-  "name": "Tribe App",
-  "description": "Contacts presence and notification",
+  "name": "Mozilla Presence Demo",
+  "description": "Mozilla Presence Demo",
   "version": "0.1",
   "launch_path": "/index.html",
   "type" : "web",
@@ -15,6 +15,6 @@
   },
   "developer": {
     "name": "Mozilla Services",
-    "url": "https://github.com/mozilla-services/presence-tribe"
+    "url": "https://github.com/mozilla-services/presence-fxapp"
   }
 }
