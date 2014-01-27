@@ -3,7 +3,7 @@
     <p>Tribe installation page</p>
     <script>
       // This URL must be a full url.
-      var manifestUrl = 'https://presence.services.mozilla.com/presence-tribe/package.manifest';
+      var manifestUrl = 'https://presence.services.mozilla.com/presence-fxapp/package.manifest';
       var req = navigator.mozApps.installPackage(manifestUrl);
       req.onsuccess = function() {
         alert(this.result.origin);
