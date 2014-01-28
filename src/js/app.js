@@ -464,8 +464,9 @@ function startPresenceWS() {
 
     if (data.status=='notification') {
       $.each(data.notifications, function(key, notification) {
-         console.log(notification); 
-         notified(notification.message);
+         console.log(notification);
+         var msg = notification.source + ' says "' + notification.message + '".';
+         notified(msg);
       });
       return;
     }
@@ -501,15 +502,13 @@ function stopPresenceWS() {
 }
 
 function notified(msg) {
-    console.log("received " + msg);
-
     function callback() {
       setTimeout(function() {
       $( "#message:visible" ).removeAttr( "style" ).fadeOut();
       }, 5000 );
     };
     var options = {};
-    $('#message').text(msg);
+    $('#message-body').text(msg);
     $('#message').show("drop", options, 500, callback);
 }
 
