@@ -33,26 +33,19 @@ navigator.id.watch({
       dataType: 'json',
       data: {assertion: assertion},
       success: function(res, status, xhr) {
-        console.log('Connected to ' + presenceServerURL + ' as ' + res.email)
         currentUser = res.email;
         $('#user').text(res.email);
         $('#signin').hide();
         $('#signout').show();
-        console.log('starting presence web socket');
         startPresenceWS();
         startTribeWS();
-        console.log('loading apps');
         loadApps();
       },
       error: function(xhr, status, err) {
-        console.log('error on persona connection'); 
-        console.log(status);
-        console.log(err);
         navigator.id.logout();
         $('#user').text("anonymous, please connect");
         $('#signout').hide();
         $('#signin').show();
-        console.log('stopping presence web socket');
         stopPresenceWS();
         stopTribeWS();
         hideApps();
@@ -61,7 +54,6 @@ navigator.id.watch({
 
   },
   onlogout: function() {
-    console.log('disconnected');
     $('#user').text("anonymous");
     currentUser = null;
     stopWS();
@@ -278,11 +270,9 @@ function openSendDialog(mail) {
 
 
 function loadContacts() {
-  console.log("loading contacts");
   $("#contacts").empty();
 
   for (var email in storage) {
-    console.log(email);
     var email_id = emailToId(email);
     var gravatar = md5(email);
     var linkUrl = 'http://www.gravatar.com/avatar/' + gravatar;
@@ -299,7 +289,6 @@ function loadContacts() {
 }
 
 function deleteContact(email) {
-  console.log("deleting contact " + email);
   if (storage.getItem(email)) {
     storage.removeItem(email);
     loadContacts();
@@ -308,7 +297,6 @@ function deleteContact(email) {
 
 
 function addContact(email) {
-  console.log("adding contact " + email);
   if (storage.getItem(email)) {
     // already exists
     return;
@@ -366,20 +354,14 @@ function startTribeWS() {
 
   tribe_ws = new WebSocket(tribeSocketURL);
 
-  console.log("creating web socket");
-
   tribe_ws.onopen = function() {
     console.log('websocket opened');
   }
 
   tribe_ws.onmessage = function(evt) {
-    console.log("message received");
 
     var data = jQuery.parseJSON(evt.data);
-    console.log(data.uid);
     var email_id = emailToId(data.uid);
-    console.log(email_id);
-    console.log(data.status);
 
     var msg = data.uid + " is now " + data.status;
 
@@ -478,9 +460,11 @@ function startPresenceWS() {
 
   presence_ws.onmessage = function(evt) {
     var data = jQuery.parseJSON(evt.data);
+    console.log(data);
 
     if (data.status=='notification') {
-      $.each(data.notifications, function(key, notification){
+      $.each(data.notifications, function(key, notification) {
+         console.log(notification); 
          notified(notification.message);
       });
       return;
@@ -517,12 +501,12 @@ function stopPresenceWS() {
 }
 
 function notified(msg) {
-    console.log(msg);
+    console.log("received " + msg);
 
     function callback() {
       setTimeout(function() {
       $( "#message:visible" ).removeAttr( "style" ).fadeOut();
-      }, 1000 );
+      }, 5000 );
     };
     var options = {};
     $('#message').text(msg);
