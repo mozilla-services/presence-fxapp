@@ -264,6 +264,7 @@ function emailToId(mail) {
 
 function openSendDialog(mail) {
   $("#targetMail").val(mail);
+  $("#dialog-form").dialog('option', 'title', "Send to " + mail);
   $("#dialog-form").dialog("open");
   return false;
 }
@@ -363,17 +364,9 @@ function startTribeWS() {
     var data = jQuery.parseJSON(evt.data);
     var email_id = emailToId(data.uid);
 
-    var msg = data.uid + " is now " + data.status;
-
-    function callback() {
-      setTimeout(function() {
-      $( "#message:visible" ).removeAttr( "style" ).fadeOut();
-      }, 1000 );
-    };
-    var options = {};
-    $('#message').text(msg);
-    $('#message').show("drop", options, 500, callback);
     $('#status-' + email_id).text(data.status);
+    var msg = data.uid + " is now " + data.status;
+    status_notified(msg);
   };
 }
 
@@ -426,7 +419,7 @@ function revokePresence() {
 $( "#dialog-form" ).dialog({
     autoOpen: false,
     height: 175,
-    width: 200,
+    width: 300,
     modal: true,
     buttons: {
         "Send": function() {
@@ -465,8 +458,14 @@ function startPresenceWS() {
     if (data.status=='notification') {
       $.each(data.notifications, function(key, notification) {
          console.log(notification);
-         var msg = notification.source + ' says "' + notification.message + '".';
-         notified(msg);
+         if (!notification.source || notification.source == 'root') {
+           status_notified(notification.message);
+         }
+         else {
+           $('#messageSource').val(notification.source);
+           var msg = notification.source + ' says "' + notification.message + '".';
+           notified(msg);
+         }
       });
       return;
     }
@@ -501,14 +500,42 @@ function stopPresenceWS() {
   $('#statusbar').hide();
 }
 
+// XXX default action for the prototype:
+// toggle to the tribes tab and open the
+// send message box
+function respondMessage() {
+    $("#message:visible" ).removeAttr( "style" ).fadeOut();
+    $('#tabs').tabs('option', 'active', 1);
+    openSendDialog($('#messageSource').val());
+}
+
+
+
+function closeMessage() {
+    $("#message:visible" ).removeAttr( "style" ).fadeOut();
+}
+
 function notified(msg) {
     function callback() {
       setTimeout(function() {
       $( "#message:visible" ).removeAttr( "style" ).fadeOut();
-      }, 5000 );
+      }, 10000 );
     };
     var options = {};
     $('#message-body').text(msg);
+    $('#respondButtons').show();
+    $('#message').show("drop", options, 500, callback);
+}
+
+function status_notified(msg) {
+    function callback() {
+      setTimeout(function() {
+      $( "#message:visible" ).removeAttr( "style" ).fadeOut();
+      }, 2000);
+    };
+    var options = {};
+    $('#message-body').text(msg);
+    $('#respondButtons').hide();
     $('#message').show("drop", options, 500, callback);
 }
 

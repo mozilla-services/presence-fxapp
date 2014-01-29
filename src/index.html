@@ -16,7 +16,7 @@
           <img src="media/sign_out.png" id="signout" style="display:none"></img>
         </div>
 
-        
+
           <p>Hello <span id="user">anonymous</span></p>
 
        <div style="clear: both"></div>
@@ -50,7 +50,7 @@
                 <fieldset>
                   <input type="hidden" name="mail" id="targetMail"/>
 
-                  <input type="text" name="msg" 
+                  <input type="text" name="msg"
                         id="msg" class="text ui-widget-content ui-corner-all">
                 </fieldset>
             </div>
@@ -71,12 +71,13 @@
     </div>  <!-- end tabs -->
     <footer>
       <div class="toggler">
-        <div id="message" style="display:none" 
+        <div id="message" style="display:none"
              class="ui-widget-content ui-corner-all">
              <div id="message-body">body</div>
-             <div class="buttons">
-               <button>Respond</button>
-               <button>Dismiss</button>
+             <div id="respondButtons" class="buttons">
+               <input type="hidden" id="messageSource" name="messageSource"/>
+               <button onclick="respondMessage()">Respond</button>
+               <button onclick="closeMessage()">Dismiss</button>
              </div>
         </div>
       </div>
