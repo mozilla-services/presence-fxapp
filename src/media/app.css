@@ -15,13 +15,17 @@ div.buttons {
 }
 
 body {
-  background: radial-gradient(ellipse at center, rgba(231,76,60,1) 0%,rgba(192,57,43,1) 100%);
+  /*background: radial-gradient(ellipse at center, rgba(231,76,60,1) 0%,rgba(192,57,43,1) 100%);*/
+  background-image:url('home.png');
   color: #fff;
   font-family: MozTT, sans-serif;
   font-size: 12px;
   font-size: 0.8rem;
   font-weight: 300;
   margin: 0;
+  height: 461px;
+  width: 321px;
+  background-repeat: no-repeat;
 }
 
 img.contactAvatar {
@@ -167,6 +171,14 @@ li.ui-state-active {
   background-color: white;
 }
 
+#tabs-1 {
+  background: none;
+}
+
+#tabs-2 {
+  background-color: white;
+}
+
 #tabs-1-button, #tabs-2-button {
   background: none;
   border: 1px solid #c2c2c2;
@@ -203,10 +215,11 @@ img.delete {
 
 /*View Module*/
 [role=region] {
-  background: radial-gradient(ellipse at center, #f2f2f2 0%, #c2c2c2 100%);
+  background: none; /*radial-gradient(ellipse at center, #f2f2f2 0%, #c2c2c2 100%);*/
   top: 0; right: 0; bottom: 0; left: 0;
-  position: fixed;
+  /*position: fixed;*/
   overflow-x: hidden;
+  margin-top: 75px;
 }
 [role=region] > header {
   margin: .5rem 0 1rem 0;

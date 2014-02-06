@@ -81,7 +81,7 @@
              </div>
         </div>
       </div>
-      <p>Mozilla Cloud Services - Experimental Prototype</p>
+      <!--p>Mozilla Cloud Services - Experimental Prototype</p-->
     </footer>
         </section>
         <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
@@ -90,6 +90,17 @@
         <script type="text/javascript" src="js/app.js"></script>
         <script>
           $("#tabs").tabs();
+          $('#tabs').on('tabsactivate', function(event, ui) {
+            switch (ui.newTab.index()){
+              case 0:
+
+                  $('body').css('background-image', "url('media/home.png')");
+                  break;
+              case 1:
+                  $('body').css('background-image', "url('media/tribe.png')");
+            }
+          });
+
           loadContacts();
         </script>
     </body>
