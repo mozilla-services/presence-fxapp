@@ -9,6 +9,18 @@
         <title>Mozilla Presence</title>
     </head>
     <body role="application">
+      <div class="toggler">
+        <div id="message" style="display:none"
+             class="ui-widget-content ui-corner-all">
+             <div id="message-body">body</div>
+             <div id="respondButtons" class="buttons">
+               <input type="hidden" id="messageSource" name="messageSource"/>
+               <button onclick="respondMessage()">Respond</button>
+               <button onclick="closeMessage()">Dismiss</button>
+             </div>
+        </div>
+      </div>
+
      <section id="view-todos" role="region">
         <header>
         <div class="persona">
@@ -70,17 +82,6 @@
       </div>  <!-- end tribe tab -->
     </div>  <!-- end tabs -->
     <footer>
-      <div class="toggler">
-        <div id="message" style="display:none"
-             class="ui-widget-content ui-corner-all">
-             <div id="message-body">body</div>
-             <div id="respondButtons" class="buttons">
-               <input type="hidden" id="messageSource" name="messageSource"/>
-               <button onclick="respondMessage()">Respond</button>
-               <button onclick="closeMessage()">Dismiss</button>
-             </div>
-        </div>
-      </div>
       <!--p>Mozilla Cloud Services - Experimental Prototype</p-->
     </footer>
         </section>

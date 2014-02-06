@@ -525,6 +525,8 @@ function notified(msg) {
     $('#message-body').text(msg);
     $('#respondButtons').show();
     $('#message').show("drop", options, 500, callback);
+
+    $('#tabs').tabs('option', 'active', 0);
 }
 
 function status_notified(msg) {
